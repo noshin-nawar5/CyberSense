@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CyberSense - Cyberbullying Detection</title>
+    <meta name="description" content="AI-powered cyberbullying detection system using machine learning">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --danger: #ef4444;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --bg: #0f172a;
+            --bg-card: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .tagline {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* Main Card */
+        .card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .card h2 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        /* Input Section */
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg);
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            min-height: 150px;
+            transition: border-color 0.3s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .char-counter {
+            text-align: right;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        button {
+            flex: 1;
+            padding: 1rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #475569;
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Loading Spinner */
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 0.5rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Results Section */
+        .result {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .result.safe {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success);
+        }
+
+        .result.danger {
+            background: rgba(239, 68, 68, 0.1);
+            border: 2px solid var(--danger);
+        }
+
+        .result h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+        }
+
+        .confidence-bar {
+            margin-top: 1rem;
+        }
+
+        .confidence-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.6s ease-out;
+        }
+
+        .progress-fill.safe {
+            background: var(--success);
+        }
+
+        .progress-fill.danger {
+            background: var(--danger);
+        }
+
+        /* Examples */
+        .examples {
+            margin-top: 1.5rem;
+        }
+
+        .examples h4 {
+            margin-bottom: 1rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .example-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .chip {
+            padding: 0.5rem 1rem;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .chip:hover {
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 2rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .example-chips {
+                flex-direction: column;
+            }
+
+            .chip {
+                text-align: center;
+            }
+        }
+
+        /* Error Message */
+        .error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--danger);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+            color: var(--danger);
+        }
+
+        /* Demo Mode Badge */
+        .demo-badge {
+            display: inline-block;
+            background: var(--warning);
+            color: var(--bg);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1 class="logo">🛡️ CyberSense</h1>
+            <p class="tagline">AI-Powered Cyberbullying Detection</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <h2>
+                    Analyze Text
+                    <span class="demo-badge" id="demoIndicator" style="display: none;">DEMO MODE</span>
+                </h2>
+                
+                <div class="input-group">
+                    <label for="textInput">Enter text to analyze:</label>
+                    <textarea 
+                        id="textInput" 
+                        placeholder="Type or paste text here to check for cyberbullying..."
+                        maxlength="5000"
+                    ></textarea>
+                    <div class="char-counter">
+                        <span id="charCount">0</span> / 5000 characters
+                    </div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn-primary" id="analyzeBtn">
+                        Analyze Text
+                    </button>
+                    <button class="btn-secondary" id="clearBtn">
+                        Clear
+                    </button>
+                </div>
+
+                <div id="resultContainer"></div>
+
+                <div class="examples">
+                    <h4>Try These Examples:</h4>
+                    <div class="example-chips">
+                        <div class="chip" data-text="You are so talented! Keep up the great work!">
+                            Positive message
+                        </div>
+                        <div class="chip" data-text="I really enjoyed reading your post. Very insightful!">
+                            Supportive comment
+                        </div>
+                        <div class="chip" data-text="You're so stupid and ugly. Nobody likes you.">
+                            Harmful message
+                        </div>
+                        <div class="chip" data-text="Just kill yourself already. Loser.">
+                            Threatening content
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>About CyberSense</h2>
+                <p style="color: var(--text-muted); line-height: 1.8;">
+                    CyberSense uses advanced machine learning algorithms to detect potential cyberbullying in text. 
+                    The system analyzes text patterns, sentiment, and linguistic features to identify harmful content.
+                    This tool can help moderators, parents, and educators protect online communities.
+                </p>
+            </div>
+        </main>
+
+        <footer>
+            <p>
+                Built with ❤️ for CSE445 |
+                <a href="https://github.com/yourusername/CyberSense-CSE445" target="_blank">View on GitHub</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // API Configuration - UPDATE THIS WITH YOUR RENDER BACKEND URL
+        const API_URL = 'http://localhost:5000/api';
+        // For local development: const API_URL = 'http://localhost:5000/api';
+
+        // DOM Elements
+        const textInput = document.getElementById('textInput');
+        const charCount = document.getElementById('charCount');
+        const analyzeBtn = document.getElementById('analyzeBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const resultContainer = document.getElementById('resultContainer');
+        const exampleChips = document.querySelectorAll('.chip');
+        const demoIndicator = document.getElementById('demoIndicator');
+
+        // Character counter
+        textInput.addEventListener('input', () => {
+            charCount.textContent = textInput.value.length;
+        });
+
+        // Clear button
+        clearBtn.addEventListener('click', () => {
+            textInput.value = '';
+            charCount.textContent = '0';
+            resultContainer.innerHTML = '';
+        });
+
+        // Example chips
+        exampleChips.forEach(chip => {
+            chip.addEventListener('click', () => {
+                textInput.value = chip.dataset.text;
+                charCount.textContent = chip.dataset.text.length;
+                textInput.focus();
+            });
+        });
+
+        // Analyze button
+        analyzeBtn.addEventListener('click', async () => {
+            const text = textInput.value.trim();
+            
+            if (!text) {
+                showError('Please enter some text to analyze.');
+                return;
+            }
+
+            // Disable button and show loading
+            analyzeBtn.disabled = true;
+            analyzeBtn.innerHTML = '<span class="spinner"></span>Analyzing...';
+            resultContainer.innerHTML = '';
+
+            try {
+                const response = await fetch(`${API_URL}/predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ text })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                
+                // Check if in demo mode
+                if (data.demo_mode) {
+                    demoIndicator.style.display = 'inline-block';
+                }
+                
+                displayResult(data);
+
+            } catch (error) {
+                console.error('Error:', error);
+                showError('Failed to analyze text. Please check if the backend is running and try again.');
+            } finally {
+                // Re-enable button
+                analyzeBtn.disabled = false;
+                analyzeBtn.innerHTML = 'Analyze Text';
+            }
+        });
+
+        // Display result
+        function displayResult(data) {
+            const isCyberbullying = data.prediction === 'cyberbullying';
+            const confidence = Math.round(data.confidence * 100);
+
+            const resultHTML = `
+                <div class="result ${isCyberbullying ? 'danger' : 'safe'}">
+                    <h3>
+                        <span class="icon">${isCyberbullying ? '⚠️' : '✅'}</span>
+                        ${isCyberbullying ? 'Potential Cyberbullying Detected' : 'No Cyberbullying Detected'}
+                    </h3>
+                    <p style="color: var(--text-muted);">
+                        ${isCyberbullying 
+                            ? 'This text contains language that may be harmful or offensive.' 
+                            : 'This text appears to be safe and respectful.'}
+                    </p>
+                    ${data.note ? `<p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--warning);">${data.note}</p>` : ''}
+                    <div class="confidence-bar">
+                        <div class="confidence-label">
+                            <span>Confidence</span>
+                            <span><strong>${confidence}%</strong></span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill ${isCyberbullying ? 'danger' : 'safe'}" 
+                                 style="width: ${confidence}%">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            resultContainer.innerHTML = resultHTML;
+        }
+
+        // Show error
+        function showError(message) {
+            resultContainer.innerHTML = `
+                <div class="error">
+                    <strong>Error:</strong> ${message}
+                </div>
+            `;
+        }
+
+        // Check backend health on load
+        async function checkBackendHealth() {
+            try {
+                const response = await fetch(`${API_URL}/health`);
+                const data = await response.json();
+                console.log('Backend status:', data);
+                
+                if (!data.models.main_model) {
+                    demoIndicator.style.display = 'inline-block';
+                }
+            } catch (error) {
+                console.warn('Backend not reachable:', error);
+                showError('Backend API is not reachable. Please ensure it is running.');
+            }
+        }
+
+        // Initialize
+        checkBackendHealth();
+    </script>
+</body>
+</html>

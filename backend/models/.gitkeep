@@ -1,0 +1,9 @@
+# This folder will contain trained models
+# Models should be downloaded separately or trained using Main.ipynb
+
+# Expected files:
+# - best_model.joblib
+# - tfidf_vectorizer.joblib
+# - svd_truncated.joblib (optional)
+# - svd_scaler.joblib (optional)
+# - tb_scaler.joblib (optional)

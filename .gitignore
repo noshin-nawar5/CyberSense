@@ -1,21 +1,38 @@
 # =====================================
-# CORE PYTHON
+# PYTHON
 # =====================================
 __pycache__/
 *.py[cod]
+*$py.class
+*.so
+.Python
 *.pyo
 *.pyd
+
+# =====================================
+# VIRTUAL ENVIRONMENTS
+# =====================================
+venv/
+env/
+ENV/
+.venv/
+tf_env/
 
 # =====================================
 # JUPYTER
 # =====================================
 .ipynb_checkpoints/
+*.ipynb_checkpoints
 
 # =====================================
 # IDE / EDITOR
 # =====================================
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
+.DS_Store
 
 # =====================================
 # OS FILES
@@ -23,60 +40,101 @@ __pycache__/
 .DS_Store
 Thumbs.db
 desktop.ini
+*.log
 
 # =====================================
-# VIRTUAL ENVIRONMENTS
+# DEPENDENCIES
 # =====================================
-tf_env/
-venv/
-env/
-.venv/
+node_modules/
+package-lock.json
+yarn.lock
 
 # =====================================
-# DOWNLOADED NLP DATA
+# TESTING
+# =====================================
+.coverage
+.pytest_cache/
+htmlcov/
+.tox/
+*.cover
+
+# =====================================
+# NLTK DATA
 # =====================================
 nltk_data/
 
 # =====================================
-# LARGE PRETRAINED EMBEDDINGS
+# LARGE FILES
 # =====================================
+# GloVe embeddings
 glove.6B.zip
 glove.6B.*.txt
 *.vec
+*.bin
 
 # =====================================
-# MODEL / SERIALIZED FILES
-# (Uncomment if you do NOT want to upload them)
+# MODEL FILES (Too large for GitHub)
 # =====================================
-# *.joblib
-# *.pkl
-# *.pickle
-# *.h5
-# *.keras
+*.joblib
+*.pkl
+*.pickle
+*.h5
+*.keras
+*.pt
+*.pth
+
+# Exception: Keep model folder structure
+!backend/models/.gitkeep
 
 # =====================================
-# LOGS / TEMP
-# =====================================
-*.log
-*.tmp
-*.temp
-
-# =====================================
-# GENERATED FILES
-# =====================================
-outputs/
-results/
-models/
-
-# =====================================
-# ENV / SECRETS
-# =====================================
-.env
-.env.*
-
-# =====================================
-# OPTIONAL CSV OUTPUT FILES
+# GENERATED OUTPUT FILES
 # =====================================
 test_predictions_only.csv
 test_predictions_mapped.csv
 external_lstm_predictions.csv
+*_predictions.csv
+
+# =====================================
+# BUILD / DIST
+# =====================================
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# =====================================
+# ENVIRONMENT VARIABLES
+# =====================================
+.env
+.env.local
+.env.*.local
+.flaskenv
+
+# =====================================
+# VERCEL
+# =====================================
+.vercel
+
+# =====================================
+# TEMPORARY FILES
+# =====================================
+*.tmp
+*.temp
+*.cache
+.cache/
+
+# =====================================
+# LOGS
+# =====================================
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =====================================
+# OPTIONAL: Keep test data
+# =====================================
+# Uncomment if you want to exclude test data
+# test-1.csv
+# test-2.csv
