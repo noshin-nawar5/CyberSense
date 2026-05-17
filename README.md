@@ -430,15 +430,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 📧 Contact
-
-For questions or feedback:
-- Email: your.email@example.com
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Project Link: [https://github.com/yourusername/CyberSense-CSE445](https://github.com/yourusername/CyberSense-CSE445)
-
----
-
 ## 🔮 Future Improvements
 
 - [ ] Multi-class classification (types of cyberbullying)
