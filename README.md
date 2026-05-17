@@ -415,21 +415,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-## 👥 Contributors
-
-- **Your Name** - *Initial work* - [GitHub](https://github.com/yourusername)
-
----
-
-## 🙏 Acknowledgments
-
-- Dataset providers
-- Scikit-learn and TensorFlow communities
-- CSE445 course instructors
-- Open source contributors
-
----
-
 ## 🔮 Future Improvements
 
 - [ ] Multi-class classification (types of cyberbullying)
@@ -442,5 +427,3 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - [ ] Explainable AI features
 
 ---
-
-**⭐ Star this repo if you find it useful!**
