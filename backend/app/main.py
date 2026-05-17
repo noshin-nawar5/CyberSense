@@ -23,7 +23,8 @@ CORS(app, resources={
         "origins": [
             "http://localhost:3000",
             "http://localhost:5173",
-            "https://cybersense-umber.vercel.app"  # Replace with actual domain
+            "https://*.vercel.app",
+            "https://cybersense-umber.vercel.app"  
         ],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type"]
