@@ -185,12 +185,12 @@ Your API will be available at: `https://your-app.onrender.com`
    - Edit `frontend/public/index.html`
    - Line 283: Change `API_URL` to your Render backend URL
    ```javascript
-   const API_URL = 'https://your-backend.onrender.com/api';
+   const API_URL = 'https://cybersense-g5kj.onrender.com/api';
    ```
 
 4. **Deploy**: Click "Deploy"
 
-Your frontend will be available at: `https://your-app.vercel.app`
+Your frontend will be available at: `https://cybersense-umber.vercel.app`
 
 ---
 
@@ -229,7 +229,7 @@ Your frontend will be available at: `https://your-app.vercel.app`
 
 ## 🔌 API Endpoints
 
-### Base URL: `https://your-backend.onrender.com`
+### Base URL: `https://cybersense-g5kj.onrender.com`
 
 #### 1. Health Check
 ```http
