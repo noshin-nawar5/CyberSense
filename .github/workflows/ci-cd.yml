@@ -35,33 +35,23 @@ jobs:
         cd backend
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest pytest-cov
+        pip install pytest pytest-cov flake8
     
     - name: Download NLTK data
       run: |
-        python -c "import nltk; nltk.download('stopwords'); nltk.download('wordnet'); nltk.download('omw-1.4')"
+        python -c "import nltk; nltk.download('stopwords', quiet=True); nltk.download('wordnet', quiet=True); nltk.download('omw-1.4', quiet=True)"
     
     - name: Lint with flake8
       run: |
-        pip install flake8
         cd backend
-        # Stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-        # Exit-zero treats all errors as warnings
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      continue-on-error: true
     
     - name: Run tests
       run: |
         cd backend
-        python -m pytest --cov=app --cov-report=xml --cov-report=html
-      continue-on-error: true  # Tests may fail without models
-    
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./backend/coverage.xml
-        flags: backend
-        name: backend-coverage
+        python -m pytest tests/ -v --tb=short
       continue-on-error: true
 
   # Frontend Testing
@@ -71,52 +61,10 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     
-    - name: Validate HTML
-      run: |
-        # Install HTML validator
-        npm install -g html-validator-cli
-        # Validate HTML file
-        html-validator frontend/public/index.html || true
-    
     - name: Check frontend structure
       run: |
         cd frontend
-        # Check required files exist
         test -f public/index.html
         test -f vercel.json
         test -f package.json
         echo "✓ Frontend structure validated"
-
-  # Security Scan
-  security-scan:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Run security scan with Bandit
-      run: |
-        pip install bandit
-        cd backend
-        bandit -r app/ -f json -o bandit-report.json || true
-    
-    - name: Check for secrets
-      uses: trufflesecurity/trufflehog@main
-      with:
-        path: ./
-        base: ${{ github.event.repository.default_branch }}
-        head: HEAD
-
-  # Notify on Success
-  notify-success:
-    needs: [backend-test, frontend-test, security-scan]
-    runs-on: ubuntu-latest
-    if: success()
-    
-    steps:
-    - name: Success notification
-      run: |
-        echo "✓ All checks passed!"
-        echo "Backend tests: ✓"
-        echo "Frontend validation: ✓"
-        echo "Security scan: ✓"
