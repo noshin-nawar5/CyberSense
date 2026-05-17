@@ -6,7 +6,7 @@
 
 An AI-powered cyberbullying detection platform that classifies harmful online text using Machine Learning and Deep Learning models, integrated with a modern web interface.
 
-🌐 **Live Demo:** [Frontend on Vercel](https://your-app.vercel.app) | [API on Render](https://your-api.onrender.com)
+🌐 **Live Demo:** [Frontend on Vercel](https://cybersense-umber.vercel.app/) | [API on Render](https://cybersense-g5kj.onrender.com/)
 
 ---
 
