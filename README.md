@@ -6,6 +6,10 @@
 
 An AI-powered cyberbullying detection platform that classifies harmful online text using Machine Learning and Deep Learning models, integrated with a modern web interface.
 
+### 👥 Team
+
+This project was developed collaboratively by [Anika Sayeed](https://github.com/anikaIX) and [Noshin Nawar](https://github.com/noshin-nawar5).
+
 🌐 **Live Demo:** [Frontend on Vercel](https://cybersense-umber.vercel.app/) | [API on Render](https://cybersense-g5kj.onrender.com/)
 
 ---
@@ -90,7 +94,7 @@ CyberSense-CSE445/
 ### 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/CyberSense-CSE445.git
+git clone https://github.com/anikaIX/CyberSense-CSE445.git
 cd CyberSense-CSE445
 ```
 
@@ -244,7 +248,7 @@ GET /api/health
     "main_model": true,
     "tfidf_vectorizer": true
   },
-  "timestamp": "2024-01-01T12:00:00"
+  "timestamp": "2026-10-07T12:00:00Z"
 }
 ```
 
@@ -264,7 +268,7 @@ Content-Type: application/json
   "prediction": "not_cyberbullying",
   "confidence": 0.95,
   "cleaned_text": "text here",
-  "timestamp": "2024-01-01T12:00:00"
+  "timestamp": "2026-10-07T12:00:00Z"
 }
 ```
 
@@ -289,7 +293,7 @@ Content-Type: application/json
     }
   ],
   "count": 3,
-  "timestamp": "2024-01-01T12:00:00"
+  "timestamp": "2026-10-07T12:00:00Z"
 }
 ```
 
