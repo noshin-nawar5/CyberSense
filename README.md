@@ -1,5 +1,7 @@
 # 🛡️ CyberSense - Cyberbullying Detection System
 
+<img width="1883" height="866" alt="Screenshot 2026-10-07 021856" src="https://github.com/user-attachments/assets/7ab48c33-a853-48d9-b2e5-6daa0cc3f54e" />
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Flask](https://img.shields.io/badge/flask-3.0-green.svg)](https://flask.palletsprojects.com/)
